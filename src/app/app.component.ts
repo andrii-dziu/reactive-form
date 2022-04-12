@@ -7,6 +7,9 @@ import {
   Validators,
 } from "@angular/forms";
 import { Observable } from "rxjs";
+import * as _moment from 'moment';
+
+const moment = _moment
 
 @Component({
   selector: "app-root",
@@ -36,7 +39,7 @@ export class AppComponent implements OnInit {
     this.form = new FormGroup({
       firstName: new FormControl("", Validators.required),
       lastName: new FormControl("", Validators.required),
-      birth: new FormControl(Validators.required),
+      birth: new FormControl('', Validators.required),
       framework: new FormControl("", Validators.required),
       frameworkVersion: new FormControl("", Validators.required),
       email: new FormControl(
@@ -64,10 +67,6 @@ export class AppComponent implements OnInit {
     (<FormArray>this.form.get('hobbies')).push(hobby)
   }
 
-  onDeleteHobby(hobbyIndex: number) {
-    
-  }
-
   forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
@@ -82,6 +81,8 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
+    this.form.controls.birth.setValue(moment().format('DD/MM/YYYY'))
     console.warn(this.form.value);
+    
   }
 }
